@@ -70,3 +70,30 @@
                 	   showUpdateDialog();
 	- 通过上述过程实现从服务器检查软件的更新信息。
 
+- 使用 MaterialNavigationDrawer 开源框架
+
+	
+![](http://i5.tietuku.com/3c7d245d285017bc.png)
+
+	- 使用过程
+	- 添加支持
+	- 新建类继承自 MaterialNavigationDrawer，重写 init 方法
+	- setDrawerHeaderImage(R.drawable.title); 设置图片
+	- this.addSection(newSection("流量统计", R.drawable.netmanager_home, new FragmentButton()));  
+	- 添加一项，里面有多个参数，可以打开活动或者Fragment ，但是第一个必须是一个 Fragment，否则会抛异常
+	- this.addBottomSection(newSection("设置中心", R.drawable.ic_settings_black_24dp, new Intent(this, SettingActivity.class)));
+	- 添加底部设置按钮。
+	- 在style中添加一个style 
+	- 
+	-  <style name="MyNavigationDrawerTheme"       parent="MaterialNavigationDrawerTheme.Light">
+        <item name="colorPrimary">#03a9f4</item>
+        <!--<item name="colorPrimaryDark">#558b2f</item>-->
+        <item name="colorPrimaryDark">#ff286b8b</item>
+        <item name="colorAccent">#ffffff</item>
+        <item name="drawerType">@integer/DRAWERTYPE_IMAGE</item>
+        </style>
+
+	- 将Activity的主题设置成刚刚添加的主题。
+	- 基本步骤如上。。。
+
+

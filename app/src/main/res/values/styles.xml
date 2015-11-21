@@ -5,4 +5,33 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="MyNavigationDrawerTheme" parent="MaterialNavigationDrawerTheme.Light">
+
+        <item name="colorPrimary">#03a9f4</item>
+        <!--<item name="colorPrimaryDark">#558b2f</item>-->
+        <item name="colorPrimaryDark">#ff286b8b</item>
+        <item name="colorAccent">#ffffff</item>
+        <item name="drawerType">@integer/DRAWERTYPE_IMAGE</item>
+    </style>
+
+    <style name="TitleStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:background">#03a9f4</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="SettingThem" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowTitleBackgroundStyle">@style/TitleGround</item>
+    </style>
+
+    <style name="title_bg" parent="android:Theme">
+        <item name="android:windowTitleBackgroundStyle">@style/TitleGround</item>
+    </style>
+    <style name="TitleGround">
+        <item name="android:background">#ff8f26</item>
+    </style>
+
 </resources>
