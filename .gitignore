@@ -27,4 +27,4 @@ proguard/
 *.log
 
 # keyStore
-*.jks
+app.jks
