@@ -23,6 +23,13 @@
             android:theme="@style/MyNavigationDrawerTheme"/>
         <activity android:name=".activity.SettingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".activity.SimGuard"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
+        <activity android:name=".activity.Setup.SetupActivity1">
+
+        </activity>
     </application>
 
 </manifest>

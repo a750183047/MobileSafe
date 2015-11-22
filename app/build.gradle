@@ -36,6 +36,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     //compile 'org.xutils:xutils:3.0.+'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.3'
+    compile 'info.hoang8f:fbutton:1.0.5'
+
 }
 
 
