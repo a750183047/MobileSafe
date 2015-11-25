@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yan.mobilesafe.R;
@@ -37,6 +39,9 @@ public class SimGuard extends AppCompatActivity implements TextWatcher {
     private EditText passwordInput;
     private SharedPreferences sharedPreferences;
     private boolean configed;
+    private TextView intosetting;
+    private TextView safeNumber;
+    private ImageView lockioc;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -57,12 +62,15 @@ public class SimGuard extends AppCompatActivity implements TextWatcher {
         etPasswordConfirm.addTextChangedListener(this);
         sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
 
+
         viewInput = View.inflate(this, R.layout.dailog_input_password, null);
 
 
         configed = sharedPreferences.getBoolean("configed", false);
 
         showPasswordDialog();
+
+
 
 
     }
@@ -94,6 +102,7 @@ public class SimGuard extends AppCompatActivity implements TextWatcher {
         Button btnCancel = (Button) viewInput.findViewById(R.id.btn_cancel);
         passwordInput = (EditText) viewInput.findViewById(R.id.et_password);
 
+
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +113,16 @@ public class SimGuard extends AppCompatActivity implements TextWatcher {
                     if (MD5utils.encode(password).equals(savePassword)) {
                         isFirstIn();
                         dialog.dismiss();
+                        //把安全号码显示在界面上
+                        String safePhone = sharedPreferences.getString("safe_number","");
+                        safeNumber.setText(safePhone);
+
+                        boolean protect = sharedPreferences.getBoolean("protect",false);
+                        if (protect){
+                            lockioc.setImageResource(R.drawable.lock);
+                        }else {
+                            lockioc.setImageResource(R.drawable.unlock);
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(),
                                 "密码错误", Toast.LENGTH_SHORT).show();
@@ -202,6 +221,20 @@ public class SimGuard extends AppCompatActivity implements TextWatcher {
     private void isFirstIn() {
         if (configed) {
             setContentView(R.layout.sim_guard_layout);
+
+            intosetting = (TextView) findViewById(R.id.into_setting);
+            safeNumber = (TextView) findViewById(R.id.safe_number);
+            lockioc = (ImageView) findViewById(R.id.lock);
+
+            intosetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(SimGuard.this, SetupActivity1.class));
+                    finish();
+                }
+            });
+
+
         } else {
             startActivity(new Intent(this, SetupActivity1.class));
             finish();

@@ -8,35 +8,27 @@
     <TextView
         style="@style/TitleStyle"
         android:gravity="center"
-        android:text="1.欢迎使用手机防盗" />
+        android:text="4.恭喜您，设置完成" />
+    <TextView
+        style="@style/ContentStyle"
+        />
+
+   <CheckBox
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="防盗保护没有开启"
+       android:id="@+id/cb_clock"
+       />
+
+
 
     <TextView
         style="@style/ContentStyle"
-        android:text="您的手机防盗卫士:" />
+         />
 
-    <TextView
-        style="@style/ContentStyle"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:gravity="center"
-        android:text="SIM卡变更报警" />
 
-    <TextView
-        style="@style/ContentStyle"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:gravity="center"
-        android:text="GPS追踪" />
 
-    <TextView
-        style="@style/ContentStyle"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:gravity="center"
-        android:text="远程销毁数据" />
 
-    <TextView
-        style="@style/ContentStyle"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:gravity="center"
-        android:text="远程锁屏" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,22 +38,22 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@android:drawable/presence_online" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/presence_invisible" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/presence_invisible" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/presence_invisible" />
     </LinearLayout>
 
     <RelativeLayout
@@ -76,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/setup1" />
+            android:src="@drawable/setup3" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -91,11 +83,31 @@
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_weight="1"
-                android:text="下一步"
+                android:text="设置完成"
                 fbutton:buttonColor="@color/great_blue"
                 fbutton:cornerRadius="2dp"
                 fbutton:shadowColor="@color/color_belize_hole"
                 fbutton:shadowHeight="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:padding="5dp">
+            <info.hoang8f.widget.FButton
+                android:id="@+id/back"
+                android:text="上一步"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                fbutton:buttonColor="@color/great_blue"
+                fbutton:cornerRadius="2dp"
+                fbutton:shadowColor="@color/color_belize_hole"
+                fbutton:shadowHeight="2dp"
+                />
         </LinearLayout>
 
 

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -44,15 +44,23 @@
         <item name="android:background">#ff8f26</item>
     </style>
     <!-- 这个是button的样式-->
-    <style name="ButtonBlue">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="fbutton:buttonColor">@color/great_blue</item>
-        <item name="fbutton:cornerRadius">2dp</item>
-        <item name="fbutton:shadowColor">@color/color_belize_hole</item>
-        <item name="fbutton:shadowHeight">2dp</item>
+    <!--<style name="ButtonBlue">-->
+        <!--<item name="xmlns:fbutton">http://schemas.android.com/apk/res-auto</item>-->
+        <!--<item name="android:layout_width">0dp</item>-->
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <!--<item name="android:layout_weight">1</item>-->
+        <!--<item name="android:textColor">@color/black</item>-->
+        <!--<item name="fbutton:buttonColor">@color/great_blue</item>-->
+        <!--<item name="fbutton:cornerRadius">2dp</item>-->
+        <!--<item name="fbutton:shadowColor">@color/color_belize_hole</item>-->
+        <!--<item name="fbutton:shadowHeight">2dp</item>-->
+    <!--</style>-->
+
+
+    <style name="ViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">23dp</item>
+        <item name="android:background">#ff286b8b</item>
     </style>
 
 </resources>
