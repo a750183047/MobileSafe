@@ -76,6 +76,8 @@
 
         </service>
 
+        <service android:name=".Service.AddressService"/>
+
     </application>
 
 </manifest>

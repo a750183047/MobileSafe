@@ -24,4 +24,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/setting_update"
         />
+
+    <com.yan.mobilesafe.View.SettingItemView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/setting_address"
+        />
 </LinearLayout>

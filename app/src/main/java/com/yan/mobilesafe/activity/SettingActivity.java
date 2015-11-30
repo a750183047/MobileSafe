@@ -2,6 +2,7 @@ package com.yan.mobilesafe.activity;
 
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.yan.mobilesafe.R;
+import com.yan.mobilesafe.Service.AddressService;
 import com.yan.mobilesafe.View.SettingItemView;
 
 /**
@@ -20,7 +22,8 @@ import com.yan.mobilesafe.View.SettingItemView;
  */
 public class SettingActivity extends AppCompatActivity {
 
-    SettingItemView settingItemViewUpdate;  //自动更新设置
+    private SettingItemView settingItemViewUpdate;  //自动更新设置
+    private SettingItemView settingItemViewAddress; //归属地监听设置
     private SharedPreferences sharedPreferences;  //存储自动更新设置
     private boolean autoUpdate;
     private TextView title;
@@ -36,15 +39,32 @@ public class SettingActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-
-        settingItemViewUpdate = (SettingItemView) findViewById(R.id.setting_update);
-
         title = (TextView) findViewById(R.id.title_back);
 
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        initAutoUpdate();
+        initAddressView();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+    /**
+     * 初始化自动更新设置
+     */
+    private void initAutoUpdate(){
+        settingItemViewUpdate = (SettingItemView) findViewById(R.id.setting_update);
         settingItemViewUpdate.setTitle("自动更新设置");
-
-
-
         //判断自动更新设置状态
         autoUpdate = sharedPreferences.getBoolean("auto_update", true);
         if (autoUpdate) {
@@ -55,7 +75,6 @@ public class SettingActivity extends AppCompatActivity {
             settingItemViewUpdate.setCheckBoxSettingStatus(false);
 
         }
-
         settingItemViewUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,18 +91,28 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        finish();
+    /**
+     * 初始化归属地监听
+     */
+    private void initAddressView(){
+        settingItemViewAddress = (SettingItemView) findViewById(R.id.setting_address);
+        settingItemViewAddress.setTitle("电话归属地显示设置");
+
+        settingItemViewAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (settingItemViewAddress.isChecked()){
+                    settingItemViewAddress.setCheckBoxSettingStatus(false);
+                    settingItemViewAddress.setDesc("归属地显示已经关闭");
+                    stopService(new Intent(SettingActivity.this, AddressService.class));
+                }else {
+                    settingItemViewAddress.setCheckBoxSettingStatus(true);
+                    settingItemViewAddress.setDesc("归属地显示已经开启");
+                    startService(new Intent(SettingActivity.this,AddressService.class));
+                }
+            }
+        });
     }
 }

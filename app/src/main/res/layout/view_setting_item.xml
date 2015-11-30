@@ -9,14 +9,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="自动"
         android:textSize="22sp"
         android:id="@+id/text_setting_title"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#a000"
-        android:text="更新"
         android:id="@+id/text_setting_desc"
         android:textSize="18sp"
         android:layout_below="@+id/text_setting_title"
