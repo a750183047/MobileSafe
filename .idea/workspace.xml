@@ -34,7 +34,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2785e824-9905-499b-9912-378f02ccf0c9" name="Default" comment="splash页面的制作">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java" />
     </list>
     <ignored path="MobileSafe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -94,10 +94,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddressDB.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AddressDB.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.83985764">
+            <state vertical-scroll-proportion="0.0">
               <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -116,15 +116,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddressActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AddressActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5996441">
+              <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="23" selection-end-column="15" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#997#1298#0" expanded="true" />
-                <element signature="e#1297#1298#0" expanded="true" />
+                <element signature="e#1554#1856#0" expanded="true" />
+                <element signature="e#1855#1856#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1822,8 +1822,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_atoolactivity.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/AToolActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java" />
       </list>
     </option>
   </component>
@@ -2937,24 +2937,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#997#1298#0" expanded="true" />
-            <element signature="e#1297#1298#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.83985764">
-          <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.5996441">
+          <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="23" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1554#1856#0" expanded="true" />
+            <element signature="e#1855#1856#0" expanded="true" />
           </folding>
         </state>
       </provider>
