@@ -54,6 +54,9 @@
 
         </activity>
 
+        <activity android:name=".activity.AToolActivity"/>
+        <activity android:name=".activity.Atool.AddressActivity"/>
+
 
 
 

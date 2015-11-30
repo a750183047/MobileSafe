@@ -27,7 +27,7 @@ public class HomeActivity extends MaterialNavigationDrawer {
         this.addSection(newSection("进程管理", R.drawable.taskmanager_home, new FragmentButton()));
         this.addSection(newSection("手机杀毒", R.drawable.trojan_home, new FragmentButton()));
         this.addSection(newSection("缓存清理", R.drawable.sysoptmize, new FragmentButton()));
-        this.addSection(newSection("高级工具", R.drawable.tools_home, new FragmentButton()));
+        this.addSection(newSection("高级工具", R.drawable.tools_home, new Intent(this,AToolActivity.class)));
         // create bottom section
         this.addBottomSection(newSection("设置中心", R.drawable.ic_settings_black_24dp, new Intent(this, SettingActivity.class)));
     }

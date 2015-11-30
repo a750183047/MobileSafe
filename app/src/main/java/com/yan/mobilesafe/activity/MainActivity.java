@@ -31,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -122,14 +124,15 @@ public class MainActivity extends Activity {
 
         version.setText("版本号：" + versionName);
 
-        autoUpdate = sharedPreferences.getBoolean("auto_update",true);
+        copyDB("address.db");  //拷贝数据库
 
-        if (autoUpdate){
+        autoUpdate = sharedPreferences.getBoolean("auto_update", true);
+
+        if (autoUpdate) {
             checkVersion(); //检查版本
-        }else {
-            handler.sendEmptyMessageDelayed(CODE_NO_UP_UPDATE,3000);
+        } else {
+            handler.sendEmptyMessageDelayed(CODE_NO_UP_UPDATE, 3000);
         }
-
 
 
     }
@@ -293,5 +296,43 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         enterHomeActivity();
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 拷贝数据库
+     */
+    private void copyDB(String dbName) {
+        File destFile = new File(getFilesDir(), dbName);
+
+        if (destFile.exists()) {
+            Log.e("MainActivity", "文件已存在" + dbName);
+            return;
+        }
+        FileOutputStream outputStream = null;
+        InputStream inputStream = null;
+
+        try {
+            inputStream = getAssets().open(dbName);  //从assets中读取文件
+            outputStream = new FileOutputStream(destFile); //输出到指定目录
+
+            int len = 0;
+            byte[] buffer = new byte[1024];
+            while ((len = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, len);  //拷贝数据
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert inputStream != null;
+                assert outputStream != null;
+                inputStream.close();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

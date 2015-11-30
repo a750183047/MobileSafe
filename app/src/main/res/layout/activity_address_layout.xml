@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="23dp"
+        android:background="#ff286b8b" />
+
+    <TextView
+        style="@style/TitleStyle"
+        android:text="号码归属地查询"
+        android:gravity="center"
+        />
+    <EditText
+        android:id="@+id/et_number_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入要查询的号码"
+        android:inputType="phone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        >
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/btn_ok"
+            android:text="查询"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            fbutton:buttonColor="@color/great_blue"
+            fbutton:cornerRadius="2dp"
+            fbutton:shadowColor="@color/color_belize_hole"
+            fbutton:shadowHeight="2dp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="未知号码"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/tv_result"
+        />
+
+</LinearLayout>

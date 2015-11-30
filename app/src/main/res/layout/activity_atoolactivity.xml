@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="23dp"
+        android:background="#ff286b8b" />
+    <TextView
+        style="@style/TitleStyle"
+        android:text=" 《  高级工具"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:text="号码归属地查询"
+        android:gravity="left|center_vertical"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:id="@+id/btn_address"
+        />
+
+
+</LinearLayout>
