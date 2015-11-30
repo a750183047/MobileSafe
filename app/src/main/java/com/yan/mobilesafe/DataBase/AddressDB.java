@@ -28,7 +28,44 @@ public class AddressDB {
             }
             cursor.close();
         }else if (number.matches("^\\d+$")){ //匹配数字
-
+            switch (number.length()){
+                case 3:
+                    address = "报警电话";
+                    break;
+                case 4:
+                    address = "模拟器电话";
+                    break;
+                case 5:
+                    address = "客服电话";
+                    break;
+                case 7:
+                case 8:
+                    address = "本地电话";
+                    break;
+                default:
+                    //03154011111
+                    //01055225525
+                    if (number.startsWith("0") && number.length()>10){  //可能是长途电话
+                        //先查询3位区号
+                        Cursor cursor = database.rawQuery("select location from data2 where area = ?",
+                                new String[]{number.substring(1,3)});
+                        if (cursor.moveToNext()){
+                            address = cursor.getString(0);
+                            address = address.substring(0,address.length()-2);
+                        }else {
+                            cursor.close();
+                            //查询4位区号
+                            cursor = database.rawQuery("select location from data2 where area = ?",
+                                    new String[]{number.substring(1,4)});
+                            if (cursor.moveToNext()){
+                                address = cursor.getString(0);
+                                address = address.substring(0,address.length()-2);
+                            }
+                            cursor.close();
+                        }
+                    }
+                    break;
+            }
         }
 
         database.close();

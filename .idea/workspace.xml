@@ -35,7 +35,6 @@
     <list default="true" id="2785e824-9905-499b-9912-378f02ccf0c9" name="Default" comment="splash页面的制作">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/activity/Atool/AddressActivity.java" />
     </list>
     <ignored path="MobileSafe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -98,8 +97,8 @@
       <file leaf-file-name="AddressDB.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6708185">
-              <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.83985764">
+              <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -2952,8 +2951,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/yan/mobilesafe/DataBase/AddressDB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6708185">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.83985764">
+          <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
