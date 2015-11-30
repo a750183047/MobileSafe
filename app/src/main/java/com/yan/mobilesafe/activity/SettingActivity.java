@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.Service.AddressService;
 import com.yan.mobilesafe.View.SettingItemView;
+import com.yan.mobilesafe.utils.ServiceStatusUtils;
 
 /**
  * 设置活动
@@ -62,7 +63,7 @@ public class SettingActivity extends AppCompatActivity {
     /**
      * 初始化自动更新设置
      */
-    private void initAutoUpdate(){
+    private void initAutoUpdate() {
         settingItemViewUpdate = (SettingItemView) findViewById(R.id.setting_update);
         settingItemViewUpdate.setTitle("自动更新设置");
         //判断自动更新设置状态
@@ -96,21 +97,30 @@ public class SettingActivity extends AppCompatActivity {
     /**
      * 初始化归属地监听
      */
-    private void initAddressView(){
+    private void initAddressView() {
+        boolean isServiceRunning = ServiceStatusUtils.isServiceRunning(this, "com.yan.mobilesafe.Service.AddressService");
         settingItemViewAddress = (SettingItemView) findViewById(R.id.setting_address);
         settingItemViewAddress.setTitle("电话归属地显示设置");
+
+        if (isServiceRunning) {
+            settingItemViewAddress.setCheckBoxSettingStatus(true);
+            settingItemViewAddress.setDesc("归属地显示已经开启");
+        } else {
+            settingItemViewAddress.setCheckBoxSettingStatus(false);
+            settingItemViewAddress.setDesc("归属地显示已经关闭");
+        }
 
         settingItemViewAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (settingItemViewAddress.isChecked()){
+                if (settingItemViewAddress.isChecked()) {
                     settingItemViewAddress.setCheckBoxSettingStatus(false);
                     settingItemViewAddress.setDesc("归属地显示已经关闭");
                     stopService(new Intent(SettingActivity.this, AddressService.class));
-                }else {
+                } else {
                     settingItemViewAddress.setCheckBoxSettingStatus(true);
                     settingItemViewAddress.setDesc("归属地显示已经开启");
-                    startService(new Intent(SettingActivity.this,AddressService.class));
+                    startService(new Intent(SettingActivity.this, AddressService.class));
                 }
             }
         });
