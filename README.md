@@ -116,4 +116,36 @@
 	* 通过位置服务来获取位置，发送位置给安全号码。
 	* 一键锁屏和清除数据。
 		* 通过Administered来注册设备，达到控制系统的目的。
+		
+## 2015-12-01 ##
 
+完成高级工具里的号码归属地查询和来去电归属地显示
+
+* 来电归属地查询
+
+  通过查询数据库来显示号码的归属地
+* 数据库的导入，复制到/data/data/文件夹下。
+
+* 来去电归属地显示，通过之前的号码归属地查询功能，通过服务和广播接收器来监听系统的来去电信息，并在来电或者去电的过程中显示号码的归属地。
+* 自定义窗口的显示。
+
+		 private void showToast(String string) {
+        	windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+
+        	WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        	params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        	params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        	params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+        	        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        	        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        	params.format = PixelFormat.TRANSLUCENT;
+        	params.type = WindowManager.LayoutParams.TYPE_TOAST;
+        	params.setTitle("Toast");
+
+        	textView = new TextView(this);
+        	textView.setText(string);
+        	textView.setTextColor(Color.BLUE);
+        	windowManager.addView(textView,params);
+        }
+
+* 通过上述代码显示一个显示在窗口的视图。

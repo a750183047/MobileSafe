@@ -2,6 +2,8 @@ package com.yan.mobilesafe.activity;
 
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -12,10 +14,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.yan.mobilesafe.DataBase.AddressDB;
 import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.Service.AddressService;
 import com.yan.mobilesafe.View.SettingItemView;
 import com.yan.mobilesafe.utils.ServiceStatusUtils;
+import com.yan.mobilesafe.utils.ToastUtils;
 
 /**
  * 设置活动
@@ -125,4 +129,5 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
     }
+
 }
