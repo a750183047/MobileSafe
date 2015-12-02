@@ -57,6 +57,7 @@
 
         <activity android:name=".activity.AToolActivity"/>
         <activity android:name=".activity.Atool.AddressActivity"/>
+        <activity android:name=".activity.DragViewActivity"/>
 
 
 

@@ -2,24 +2,22 @@ package com.yan.mobilesafe.activity;
 
 
 import android.annotation.TargetApi;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.yan.mobilesafe.DataBase.AddressDB;
 import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.Service.AddressService;
+import com.yan.mobilesafe.View.SettingClickItemView;
 import com.yan.mobilesafe.View.SettingItemView;
 import com.yan.mobilesafe.utils.ServiceStatusUtils;
-import com.yan.mobilesafe.utils.ToastUtils;
 
 /**
  * 设置活动
@@ -32,6 +30,9 @@ public class SettingActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;  //存储自动更新设置
     private boolean autoUpdate;
     private TextView title;
+    private SettingClickItemView settingClickItemView;
+    private final String[] items = new String[]{"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"};
+    private SettingClickItemView settingAddressLocationView;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -55,6 +56,8 @@ public class SettingActivity extends AppCompatActivity {
 
         initAutoUpdate();
         initAddressView();
+        initAddressStyle();
+        initAddressStyleLocation();
 
     }
 
@@ -128,6 +131,58 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * 初始化归属地显示风格
+     */
+    private void initAddressStyle() {
+        settingClickItemView = (SettingClickItemView) findViewById(R.id.setting_address_style);
+        settingClickItemView.setTitle("归属地提示框风格");
+        int style = sharedPreferences.getInt("address_style", 0);
+        settingClickItemView.setDesc(items[style]);
+        settingClickItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSingleChooseDialog();
+            }
+        });
+
+    }
+
+    /***
+     * 初始化归属地框位置设置
+     */
+    private void initAddressStyleLocation() {
+        settingAddressLocationView = (SettingClickItemView) findViewById(R.id.setting_address_location);
+        settingAddressLocationView.setTitle("归属地提示框显示位置");
+        settingAddressLocationView.setDesc("设置归属地提示框的显示位置");
+        settingAddressLocationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SettingActivity.this, DragViewActivity.class));
+            }
+        });
+    }
+
+    /**
+     * 显示选择风格弹窗
+     */
+    private void showSingleChooseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("归属地提示框风格");
+        int style = sharedPreferences.getInt("address_style", 0);
+        builder.setSingleChoiceItems(items, style, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                sharedPreferences.edit().putInt("address_style", which).apply();
+                dialog.dismiss();
+                settingClickItemView.setDesc(items[which]);
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.show();
     }
 
 }

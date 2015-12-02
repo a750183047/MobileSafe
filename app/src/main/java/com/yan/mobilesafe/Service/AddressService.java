@@ -12,10 +12,12 @@ import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.yan.mobilesafe.DataBase.AddressDB;
+import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.utils.ToastUtils;
 
 /**
@@ -28,7 +30,7 @@ public class AddressService extends Service {
     private MyListener listener;
     private OutCallReceiver receiver;
     private WindowManager windowManager;
-    private TextView textView;
+    private View view;
 
     @Nullable
     @Override
@@ -62,7 +64,7 @@ public class AddressService extends Service {
                     break;
                 case TelephonyManager.CALL_STATE_IDLE: //电话闲置状态
                     if (windowManager != null  ){
-                        windowManager.removeView(textView);  //移除view
+                        windowManager.removeView(view);  //移除view
                     }
 
             }
@@ -100,10 +102,16 @@ public class AddressService extends Service {
         params.type = WindowManager.LayoutParams.TYPE_TOAST;
         params.setTitle("Toast");
 
-        textView = new TextView(this);
+        view = View.inflate(this, R.layout.toast_layout,null);
+
+        int[] bgs = new int[] { R.drawable.call_locate_white,
+                R.drawable.call_locate_orange, R.drawable.call_locate_blue,
+                R.drawable.call_locate_gray, R.drawable.call_locate_green };
+        int style  = getSharedPreferences("config",MODE_PRIVATE).getInt("address_style",0);
+        TextView textView = (TextView) view.findViewById(R.id.tv_number);
+        view.setBackgroundResource(bgs[style]);
         textView.setText(string);
-        textView.setTextColor(Color.BLUE);
-        windowManager.addView(textView,params);
+        windowManager.addView(view,params);
     }
 
     @Override
