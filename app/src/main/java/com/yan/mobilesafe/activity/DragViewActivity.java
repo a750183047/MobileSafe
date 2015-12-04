@@ -3,6 +3,7 @@ package com.yan.mobilesafe.activity;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -21,10 +22,11 @@ public class DragViewActivity extends Activity {
 
     private SharedPreferences sharedPreferences;
     private TextView tvTop;
-    private TextView tvButtom;
+    private TextView tvBottom;
     private ImageView ivDrag;
     private int startX;
     private int startY;
+    private long[] mHits = new long[2];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class DragViewActivity extends Activity {
 
         sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         tvTop = (TextView) findViewById(R.id.tv_top);
-        tvButtom = (TextView) findViewById(R.id.tv_bottom);
+        tvBottom = (TextView) findViewById(R.id.tv_bottom);
         ivDrag = (ImageView) findViewById(R.id.iv_drag);
 
         int lastX = sharedPreferences.getInt("lastX", 0);
@@ -45,10 +47,10 @@ public class DragViewActivity extends Activity {
 
         if (lastY > winHeight / 2) {
             tvTop.setVisibility(View.VISIBLE);
-            tvButtom.setVisibility(View.INVISIBLE);
+            tvBottom.setVisibility(View.INVISIBLE);
         } else {
             tvTop.setVisibility(View.INVISIBLE);
-            tvButtom.setVisibility(View.VISIBLE);
+            tvBottom.setVisibility(View.VISIBLE);
         }
 
         RelativeLayout.LayoutParams layoutParams =
@@ -56,6 +58,19 @@ public class DragViewActivity extends Activity {
         layoutParams.leftMargin = lastX;
         layoutParams.topMargin = lastY;
         ivDrag.setLayoutParams(layoutParams);  //重新设置位置
+
+        ivDrag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
+                mHits[mHits.length - 1] = SystemClock.uptimeMillis();
+                if (mHits[0] >= SystemClock.uptimeMillis() - 500) {
+                    //把图片居中
+                    ivDrag.layout(winWidth / 2 - ivDrag.getWidth() / 2, ivDrag.getTop(),
+                            winWidth / 2 + ivDrag.getWidth() / 2, ivDrag.getBottom());
+                }
+            }
+        });
 
 
         //设置触摸监听
@@ -82,16 +97,16 @@ public class DragViewActivity extends Activity {
                         int b = ivDrag.getBottom() + dy;
 
                         //判断边界
-                        if (l < 0 || r > winWidth || t < 0 || b > winHeight-20) {
+                        if (l < 0 || r > winWidth || t < 0 || b > winHeight - 20) {
                             break;
                         }
                         //根据位置设置提示框
                         if (t > winWidth / 2) {
                             tvTop.setVisibility(View.VISIBLE);
-                            tvButtom.setVisibility(View.INVISIBLE);
+                            tvBottom.setVisibility(View.INVISIBLE);
                         } else {
                             tvTop.setVisibility(View.INVISIBLE);
-                            tvButtom.setVisibility(View.VISIBLE);
+                            tvBottom.setVisibility(View.VISIBLE);
                         }
                         //更新界面
                         ivDrag.layout(l, t, r, b);
@@ -108,7 +123,7 @@ public class DragViewActivity extends Activity {
                         break;
                 }
 
-                return true;
+                return false;
             }
         });
 

@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -63,7 +64,7 @@ public class AddressService extends Service {
                     showToast(address);
                     break;
                 case TelephonyManager.CALL_STATE_IDLE: //电话闲置状态
-                    if (windowManager != null  ){
+                    if (windowManager != null) {
                         windowManager.removeView(view);  //移除view
                     }
 
@@ -81,7 +82,7 @@ public class AddressService extends Service {
         public void onReceive(Context context, Intent intent) {
             String number = getResultData();
             String address = AddressDB.getAddress(number);
-           // ToastUtils.showToast(context, address);
+            // ToastUtils.showToast(context, address);
             showToast(address);
         }
     }
@@ -100,18 +101,26 @@ public class AddressService extends Service {
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         params.format = PixelFormat.TRANSLUCENT;
         params.type = WindowManager.LayoutParams.TYPE_TOAST;
+        params.gravity = Gravity.LEFT + Gravity.TOP;  //将中心位置设置为左上角
         params.setTitle("Toast");
 
-        view = View.inflate(this, R.layout.toast_layout,null);
+        int lastX = getSharedPreferences("config", MODE_PRIVATE).getInt("lastX", 0);
+        int lastY = getSharedPreferences("config", MODE_PRIVATE).getInt("lastY", 0);
 
-        int[] bgs = new int[] { R.drawable.call_locate_white,
+        //设置浮窗的位置
+        params.x = lastX;
+        params.y = lastX;
+
+        view = View.inflate(this, R.layout.toast_layout, null);
+
+        int[] bgs = new int[]{R.drawable.call_locate_white,
                 R.drawable.call_locate_orange, R.drawable.call_locate_blue,
-                R.drawable.call_locate_gray, R.drawable.call_locate_green };
-        int style  = getSharedPreferences("config",MODE_PRIVATE).getInt("address_style",0);
+                R.drawable.call_locate_gray, R.drawable.call_locate_green};
+        int style = getSharedPreferences("config", MODE_PRIVATE).getInt("address_style", 0);
         TextView textView = (TextView) view.findViewById(R.id.tv_number);
         view.setBackgroundResource(bgs[style]);
         textView.setText(string);
-        windowManager.addView(view,params);
+        windowManager.addView(view, params);
     }
 
     @Override
