@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
@@ -13,6 +14,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -32,6 +34,8 @@ public class AddressService extends Service {
     private OutCallReceiver receiver;
     private WindowManager windowManager;
     private View view;
+    private int startY;
+    private int startX;
 
     @Nullable
     @Override
@@ -93,14 +97,17 @@ public class AddressService extends Service {
     private void showToast(String string) {
         windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        //获取屏幕宽高
+        final int winWidth = windowManager.getDefaultDisplay().getWidth();
+        final int winHeight = windowManager.getDefaultDisplay().getHeight();
+
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         params.format = PixelFormat.TRANSLUCENT;
-        params.type = WindowManager.LayoutParams.TYPE_TOAST;
+        params.type = WindowManager.LayoutParams.TYPE_PHONE;   //设置为电话窗口，用于电话交互  需要权限android.permission.SYSTEM_ALERT_WINDOW
         params.gravity = Gravity.LEFT + Gravity.TOP;  //将中心位置设置为左上角
         params.setTitle("Toast");
 
@@ -109,7 +116,7 @@ public class AddressService extends Service {
 
         //设置浮窗的位置
         params.x = lastX;
-        params.y = lastX;
+        params.y = lastY;
 
         view = View.inflate(this, R.layout.toast_layout, null);
 
@@ -121,6 +128,54 @@ public class AddressService extends Service {
         view.setBackgroundResource(bgs[style]);
         textView.setText(string);
         windowManager.addView(view, params);
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        //初始化起点坐标
+                        startX = (int) event.getRawX();
+                        startY = (int) event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        //计算偏移量
+                        int endX = (int) event.getRawX();
+                        int endY = (int) event.getRawY();
+
+                        int dx = endX - startX;
+                        int dy = endY - startY;
+                        //更新浮窗位置
+                        params.x += dx;
+                        params.y += dy;
+                        //防止坐标偏移屏幕
+                        if (params.x<0){
+                            params.x = 0;
+                        }
+                        if (params.y<0){
+                            params.y = 0;
+                        }
+                        if (params.x>winWidth - view.getWidth()){
+                            params.x = winWidth - view.getWidth();
+                        }
+                        if (params.y>winHeight - view.getHeight()){
+                            params.y = winHeight  - view.getHeight();
+                        }
+                        windowManager.updateViewLayout(view,params);
+
+                        //重新初始化坐标
+                        startY = (int) event.getRawY();
+                        startX = (int) event.getRawX();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        SharedPreferences.Editor editor = getSharedPreferences("config",MODE_PRIVATE).edit();
+                        editor.putInt("lastX",params.x);
+                        editor.putInt("lastY",params.y);
+                        editor.apply();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
