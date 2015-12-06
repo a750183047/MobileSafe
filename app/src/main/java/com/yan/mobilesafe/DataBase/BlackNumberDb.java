@@ -96,13 +96,14 @@ public class BlackNumberDb {
 
     /**
      * 查询所有黑名单
+     *
      * @return
      */
-    public List<BlackNumberInfo> findAll(){
+    public List<BlackNumberInfo> findAll() {
         SQLiteDatabase db = helper.getWritableDatabase();
         List<BlackNumberInfo> blackNumberInfoList = new ArrayList<BlackNumberInfo>();
         Cursor cursor = db.query(TABLENAME, new String[]{"number", "mode"}, null, null, null, null, null);
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
             blackNumberInfo.setNumber(cursor.getString(cursor.getColumnIndex("number")));
             blackNumberInfo.setMode(cursor.getString(cursor.getColumnIndex("mode")));
@@ -113,4 +114,67 @@ public class BlackNumberDb {
         SystemClock.sleep(2000);
         return blackNumberInfoList;
     }
+
+    /**
+     * 分页加载数据
+     *
+     * @param pageNumber 当前的页数
+     * @param pageSize   每一页有多少数据
+     * @return
+     */
+    public List<BlackNumberInfo> findPar(int pageNumber, int pageSize) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select number,mode from blacknumber limit ? offset ?", new String[]{
+                String.valueOf(pageNumber), String.valueOf(pageSize)
+        });
+        List<BlackNumberInfo> blackNumberInfos = new ArrayList<BlackNumberInfo>();
+        while (cursor.moveToNext()) {
+            BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
+            blackNumberInfo.setNumber(cursor.getString(cursor.getColumnIndex("number")));
+            blackNumberInfo.setMode(cursor.getString(cursor.getColumnIndex("mode")));
+            blackNumberInfos.add(blackNumberInfo);
+        }
+        cursor.close();
+        db.close();
+        return blackNumberInfos;
+    }
+
+    /**
+     * 分批加载数据
+     *
+     * @param startIndex 开始的位置
+     * @param maxCount   每页展示的最大的条目
+     * @return
+     */
+    public List<BlackNumberInfo> findPar2(int startIndex, int maxCount) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select number,mode from blacknumber limit ? offset ?", new String[]{String.valueOf(maxCount),
+                String.valueOf(startIndex)});
+        List<BlackNumberInfo> blackNumberInfos = new ArrayList<BlackNumberInfo>();
+        while (cursor.moveToNext()) {
+            BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
+            blackNumberInfo.setMode(cursor.getString(1));
+            blackNumberInfo.setNumber(cursor.getString(0));
+            blackNumberInfos.add(blackNumberInfo);
+        }
+        cursor.close();
+        db.close();
+        return blackNumberInfos;
+    }
+
+    /**
+     * 获取总的记录数
+     *
+     * @return
+     */
+    public int getTotalNumber() {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select count(*) from blacknumber", null);
+        cursor.moveToNext();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
 }

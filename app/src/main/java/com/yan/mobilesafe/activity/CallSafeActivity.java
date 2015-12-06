@@ -59,12 +59,23 @@ public class CallSafeActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             ll_pb.setVisibility(View.INVISIBLE);
             swipeRefresh.setRefreshing(false); //设置更新完成
-            if (adapter == null){
-                adapter = new MyAdapter(CallSafeActivity.this, blackNumberInfos);
-                recyclerView.setAdapter(adapter);
-            }else {
-                ///////
+
+            switch (msg.what){
+                case 0:
+                    if (adapter == null){
+                        adapter = new MyAdapter(CallSafeActivity.this, blackNumberInfos);
+                        recyclerView.setAdapter(adapter);
+                    }else {
+                        ///////
+                    }
+                    break;
+                case 1:
+                    adapter = new MyAdapter(CallSafeActivity.this, blackNumberInfos);
+                    recyclerView.setAdapter(adapter);
+                    break;
+
             }
+
 
         }
     };
@@ -78,7 +89,8 @@ public class CallSafeActivity extends AppCompatActivity {
         new Thread() {
             @Override
             public void run() {
-                blackNumberInfos = blackNumberDb.findAll();  //加载数据
+               // blackNumberInfos = blackNumberDb.findAll();  //加载数据
+                blackNumberInfos = blackNumberDb.findPar2(0,20);
                 handler.sendEmptyMessage(0);
             }
 
@@ -105,7 +117,14 @@ public class CallSafeActivity extends AppCompatActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initData();
+                new Thread(){
+                    @Override
+                    public void run() {
+                        blackNumberDb = new BlackNumberDb(CallSafeActivity.this);
+                        blackNumberInfos = blackNumberDb.findPar2(10,20);
+                        handler.sendEmptyMessage(1);
+                    }
+                }.start();
             }
         });
 
@@ -130,4 +149,9 @@ public class CallSafeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 }

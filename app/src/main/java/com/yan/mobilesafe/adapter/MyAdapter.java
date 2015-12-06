@@ -1,6 +1,8 @@
 package com.yan.mobilesafe.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yan.mobilesafe.Bean.BlackNumberInfo;
+import com.yan.mobilesafe.DataBase.BlackNumberDb;
 import com.yan.mobilesafe.R;
+import com.yan.mobilesafe.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +36,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.SimpleViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder holder, final int position) {
-        String phoneName = blackNumberInfo.get(position).getNumber();
+    public void onBindViewHolder(final SimpleViewHolder holder, final int position) {
+        final String phoneName = blackNumberInfo.get(position).getNumber();
         String phoneMode = blackNumberInfo.get(position).getMode();
         String mode = null;
 
@@ -48,7 +52,35 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.SimpleViewHolder> 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("MyAdapter", "delete" + position);
+
+                //创建一个弹窗 警告是否要删除数据
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("确认删除该号码吗");
+                builder.setMessage("你确认要删除 " + phoneName + "的号码吗？该操作无法恢复！");
+                builder.setCancelable(false);
+                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //数据库操作
+                        BlackNumberDb blackNumberDb = new BlackNumberDb(context);
+                        boolean b = blackNumberDb.deleteNumber(phoneName);
+                        if (b){
+
+                        }else {
+                            ToastUtils.showToast(context,"糟糕，删除失败了，再试一下");
+                        }
+                        //这里是个坑  http://blog.csdn.net/wangkai0681080/article/details/50082825
+                        blackNumberInfo.remove(holder.getAdapterPosition());
+                        notifyItemRemoved(holder.getAdapterPosition());
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
             }
         });
         holder.phoneNumber.setText(phoneName);

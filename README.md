@@ -149,3 +149,37 @@
         }
 
 * 通过上述代码显示一个显示在窗口的视图。
+
+
+## 2015-12-6 ##
+
+初步完成通讯卫士中的黑名单列表
+
+* 黑名单数据的创建。
+* 数据库的增删改查。
+* 数据库测试用例的编写。
+* 使用RecyclerView展示数据。
+	* 在xml文件中使用 
+		
+		`
+			<android.support.v7.widget.RecyclerView xmlns:android="http://	schemas.android.com/apk/res/android"  
+				android:layout_width="match_parent"
+    			android:layout_height="match_parent"  
+				>
+				</android.support.v7.widget.RecyclerView>
+		`
+	* 设置参数在Activity中
+	
+
+			recyclerView = (RecyclerView) findViewById(R.id.recycle_view);//设置下拉新
+       		swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        	LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(linearLayoutManager);
+			//设置下拉刷新监听
+            swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+			//设置滑动监听
+            recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener()
+			recyclerView.setAdapter(adapter);
+	
+	* 编写adapter。
+	
