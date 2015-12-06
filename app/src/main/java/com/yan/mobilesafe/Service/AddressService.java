@@ -36,7 +36,6 @@ public class AddressService extends Service {
     private View view;
     private int startY;
     private int startX;
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -55,8 +54,7 @@ public class AddressService extends Service {
         registerReceiver(receiver, filter);  //动态注册广播
 
     }
-
-
+    
     class MyListener extends PhoneStateListener {
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
