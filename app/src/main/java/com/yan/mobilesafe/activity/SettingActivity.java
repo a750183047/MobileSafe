@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.Service.AddressService;
+import com.yan.mobilesafe.Service.CallSafeSevers;
 import com.yan.mobilesafe.View.SettingClickItemView;
 import com.yan.mobilesafe.View.SettingItemView;
 import com.yan.mobilesafe.utils.ServiceStatusUtils;
@@ -33,6 +34,7 @@ public class SettingActivity extends AppCompatActivity {
     private SettingClickItemView settingClickItemView;
     private final String[] items = new String[]{"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"};
     private SettingClickItemView settingAddressLocationView;
+    private SettingItemView settingBlackNumber;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -58,7 +60,37 @@ public class SettingActivity extends AppCompatActivity {
         initAddressView();
         initAddressStyle();
         initAddressStyleLocation();
+        initBlackNumberSetting();
 
+    }
+
+    private void initBlackNumberSetting() {
+        boolean isServiceRunning = ServiceStatusUtils.isServiceRunning(this, "com.yan.mobilesafe.Service.CallSafeSevers");
+        settingBlackNumber = (SettingItemView) findViewById(R.id.setting_black_number);
+        settingBlackNumber.setTitle("黑名单拦截设置");
+
+        if (isServiceRunning) {
+            settingBlackNumber.setCheckBoxSettingStatus(true);
+            settingBlackNumber.setDesc("黑名单拦截已经开启");
+        } else {
+            settingBlackNumber.setCheckBoxSettingStatus(false);
+            settingBlackNumber.setDesc("黑名单拦截已经关闭");
+        }
+
+        settingBlackNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (settingBlackNumber.isChecked()) {
+                    settingBlackNumber.setCheckBoxSettingStatus(false);
+                    settingBlackNumber.setDesc("黑名单拦截已经关闭");
+                    stopService(new Intent(SettingActivity.this, CallSafeSevers.class));
+                } else {
+                    settingBlackNumber.setCheckBoxSettingStatus(true);
+                    settingBlackNumber.setDesc("黑名单拦截已经开启");
+                    startService(new Intent(SettingActivity.this, CallSafeSevers.class));
+                }
+            }
+        });
     }
 
     @Override

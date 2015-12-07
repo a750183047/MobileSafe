@@ -159,6 +159,7 @@ public class BlackNumberDb {
         }
         cursor.close();
         db.close();
+        SystemClock.sleep(2000);
         return blackNumberInfos;
     }
 

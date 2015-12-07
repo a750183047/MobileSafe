@@ -73,6 +73,12 @@
             android:label="@string/title_activity_call_safe"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
+
+        <service
+            android:name=".Service.CallSafeSevers"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

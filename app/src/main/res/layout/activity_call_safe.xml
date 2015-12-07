@@ -9,9 +9,25 @@
         android:layout_height="23dp"
         android:background="#ff286b8b" />
 
-    <TextView
-        style="@style/TitleStyle"
-        android:text=" 《  通讯卫士" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/TitleStyle"
+            android:text=" 《  通讯黑名单" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_add_number"
+            android:text="+"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/button_selector"/>
+
+    </RelativeLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -54,6 +70,8 @@
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </FrameLayout>
+
+
 
 
     <!--<include-->

@@ -18,7 +18,7 @@ public class FragmentButton extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Button button = new Button(this.getActivity());
-        button.setText("Click Me");
+        button.setText("哎呀！出了一些问题，刷新一下试试。。");
         button.setGravity(Gravity.CENTER);
         return button;
 

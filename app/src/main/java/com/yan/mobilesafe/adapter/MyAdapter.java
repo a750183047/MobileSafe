@@ -25,8 +25,9 @@ import java.util.List;
  */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.SimpleViewHolder> {
 
-    Context context;
+    static Context context;
     List<BlackNumberInfo> blackNumberInfo;
+    private static BlackNumberDb blackNumberDb;
 
     @Override
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,7 +63,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.SimpleViewHolder> 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //数据库操作
-                        BlackNumberDb blackNumberDb = new BlackNumberDb(context);
                         boolean b = blackNumberDb.deleteNumber(phoneName);
                         if (b){
 
@@ -105,6 +105,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.SimpleViewHolder> 
             phoneNumber = (TextView) itemView.findViewById(R.id.tv_phone_number);
             phoneMode = (TextView) itemView.findViewById(R.id.tv_mode);
             delete = (ImageView) itemView.findViewById(R.id.iv_delete);
+            blackNumberDb = new BlackNumberDb(context);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
