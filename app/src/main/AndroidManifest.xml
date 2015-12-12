@@ -79,6 +79,12 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".activity.AppManagerActivity"
+            android:label="@string/title_activity_app_manager"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

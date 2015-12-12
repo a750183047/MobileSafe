@@ -1,12 +1,37 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+//buildscript {
+//    repositories {
+//        jcenter()
+//
+//    }
+//    dependencies {
+//        classpath 'com.android.tools.build:gradle:2.0.0-alpha1'
+//
+//        // NOTE: Do not place your application dependencies here; they belong
+//        // in the individual module build.gradle files
+//    }
+//}
+//
+//allprojects {
+//    repositories {
+//        jcenter()
+//    }
+//}
+
+//著作权归作者所有。
+//商业转载请联系作者获得授权，非商业转载请注明出处。
+//作者：ghui
+//链接：http://www.zhihu.com/question/29615801/answer/48958123
+//来源：知乎
+
 buildscript {
     repositories {
+        maven { url 'http://maven.oschina.net/content/groups/public/' }
         jcenter()
-
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0-alpha1'
+        classpath'com.android.tools.build:gradle:2.0.0-alpha1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -15,8 +40,8 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'http://maven.oschina.net/content/groups/public/' }
         jcenter()
     }
 }
-
 

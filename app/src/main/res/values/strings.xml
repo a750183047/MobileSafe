@@ -6,4 +6,5 @@
     <string name="version_text">版本号：1.0</string>
     <string name="updateUrl">http://qingxinchengming.cn/appweb/update.json</string>
     <string name="title_activity_call_safe">CallSafeActivity</string>
+    <string name="title_activity_app_manager">AppManagerActivity</string>
 </resources>

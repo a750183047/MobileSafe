@@ -248,13 +248,13 @@ public class CallSafeActivity extends AppCompatActivity implements TextWatcher {
                 BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
                 blackNumberInfo.setNumber(str_number);
                 blackNumberInfo.setMode(mode);
-                blackNumberInfos.add(1,blackNumberInfo);  //把添加的数据放在第一位
+                blackNumberInfos.add(blackNumberInfo);  //把添加的数据放在第一位
                 blackNumberDb.addNumber(str_number,mode);
                 if (adapter == null){
                     adapter = new MyAdapter(CallSafeActivity.this,blackNumberInfos);
                 }else {
 
-                    adapter.notifyItemInserted(1);
+                    adapter.notifyItemInserted(blackNumberInfos.size());
 
                 }
                 dialog.dismiss();

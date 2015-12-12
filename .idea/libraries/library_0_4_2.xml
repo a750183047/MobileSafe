@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="library-0.4.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.timehop.stickyheadersrecyclerview/library/0.4.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.timehop.stickyheadersrecyclerview/library/0.4.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.timehop.stickyheadersrecyclerview/library/0.4.2/71c7de6e8da4c6e67c8a2de3ac81351ac57abbd9/library-0.4.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
