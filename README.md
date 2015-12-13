@@ -233,3 +233,11 @@
 ##2015-12-13##
 
 *  软件管理页面的实现
+
+![](https://github.com/a750183047/MobileSafe/blob/master/image/pic2.png?raw=true)
+
+* 内存剩余的获取，系统提供API可供调用。
+* 软件信息的管理，使用软件信息对象接收所有的软件信息，并使用RecyclerView展示信息。
+* 表头的实现。
+	* 使用开源框架  [sticky-headers-recyclerview](https://github.com/timehop/sticky-headers-recyclerview "sticky-headers-recyclerview") 实现。
+	* 图标右侧弹窗为 popupWindow 。

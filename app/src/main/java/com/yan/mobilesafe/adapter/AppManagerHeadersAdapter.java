@@ -183,9 +183,9 @@ public class AppManagerHeadersAdapter extends RecyclerView.Adapter<AppManagerHea
     public void onBindHeaderViewHolder(ViewHeadersHolder holder, int position) {
 
         if (position == 0) {
-            holder.tt.setText("用户程序(" + userAppInfos.size()+1 + ")");
+            holder.tt.setText("用户程序(" + (userAppInfos.size()+1) + ")");
         } else if (position == userAppInfos.size() + 1) {
-            holder.tt.setText("系统程序(" + systemAppInfos.size()+1 + ")");
+            holder.tt.setText("系统程序(" + (systemAppInfos.size()+1) + ")");
         }
 
 
