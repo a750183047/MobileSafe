@@ -1,8 +1,10 @@
 package com.yan.mobilesafe.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -37,7 +40,7 @@ import com.yan.mobilesafe.utils.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppManagerActivity extends AppCompatActivity {
+public class AppManagerActivity extends AppCompatActivity implements View.OnClickListener {
 
     @ViewInject(R.id.view_rec)
     private RecyclerView recyclerView;
@@ -50,6 +53,7 @@ public class AppManagerActivity extends AppCompatActivity {
     private List<AppInfo> systemAppInfos;
     private AppManagerHeadersAdapter appManagerHeadersAdapter;
     private PopupWindow popupWindow;
+    private AppInfo clickAppInfo;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -94,6 +98,20 @@ public class AppManagerActivity extends AppCompatActivity {
                     View contentView = View.inflate(AppManagerActivity.this, R.layout.item_popup_layout, null);
                     View parent = View.inflate(AppManagerActivity.this, R.layout.activity_app_manager, null);
 
+                    LinearLayout startApp = (LinearLayout) contentView.findViewById(R.id.ll_start);
+                    LinearLayout appDetail = (LinearLayout) contentView.findViewById(R.id.ll_detail);
+                    LinearLayout appShare = (LinearLayout) contentView.findViewById(R.id.ll_share);
+
+                    startApp.setOnClickListener(AppManagerActivity.this);
+                    appDetail.setOnClickListener(AppManagerActivity.this);
+                    appShare.setOnClickListener(AppManagerActivity.this);
+
+                    if (position < userAppInfos.size()) {
+                        clickAppInfo = userAppInfos.get(position);
+                    } else {
+                        clickAppInfo = systemAppInfos.get(position - userAppInfos.size());
+                    }
+
                     // -2表示包裹内容
                     popupWindow = new PopupWindow(contentView, -2, -2);
                     //需要注意：使用PopupWindow 必须设置背景。不然没有动画
@@ -117,8 +135,6 @@ public class AppManagerActivity extends AppCompatActivity {
     };
 
 
-
-
     /**
      * 初始化数据
      */
@@ -129,14 +145,13 @@ public class AppManagerActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener(){
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 popupWindowDismiss();
             }
         });
-
 
 
         new Thread() {
@@ -171,4 +186,33 @@ public class AppManagerActivity extends AppCompatActivity {
     }
 
 
+    //分享app等监听
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_start:
+                Intent start_localIntent = this.getPackageManager().getLaunchIntentForPackage(clickAppInfo.getApkPackageName());
+                this.startActivity(start_localIntent);
+                popupWindowDismiss();
+                break;
+            case R.id.ll_share:
+                Intent share_localIntent = new Intent("android.intent.action.SEND");
+                share_localIntent.setType("text/plain");
+                share_localIntent.putExtra("android.intent.extra.SUBJECT", "f分享");
+                share_localIntent.putExtra("android.intent.extra.TEXT",
+                        "Hi！推荐您使用软件：" + clickAppInfo.getApkName() + "下载地址:" +
+                                "https://play.google.com/store/apps/details?id=" + clickAppInfo.getApkPackageName());
+                this.startActivity(Intent.createChooser(share_localIntent, "分享"));
+                popupWindowDismiss();
+                break;
+            case R.id.ll_detail:
+                Intent detail_intent = new Intent();
+                detail_intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                detail_intent.addCategory(Intent.CATEGORY_DEFAULT);
+                detail_intent.setData(Uri.parse("package:" + clickAppInfo.getApkPackageName()));
+                startActivity(detail_intent);
+                popupWindowDismiss();
+                break;
+        }
+    }
 }

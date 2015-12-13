@@ -1,9 +1,12 @@
 package com.yan.mobilesafe.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.yan.mobilesafe.Bean.AppInfo;
 import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.adapter.listentr.MyItemClickListener;
+import com.yan.mobilesafe.utils.ToastUtils;
 
 
 import java.util.List;
@@ -26,7 +30,7 @@ import java.util.List;
 public class AppManagerHeadersAdapter extends RecyclerView.Adapter<AppManagerHeadersAdapter.SimpleViewHolder>
         implements StickyRecyclerHeadersAdapter<AppManagerHeadersAdapter.ViewHeadersHolder> {
     private Context context;
-    private List<AppInfo> appInfoList;
+    private List<AppInfo> appInfoList = null;
     private List<AppInfo> userAppInfos;
     private List<AppInfo> systemAppInfos;
     private String appName;
@@ -34,6 +38,9 @@ public class AppManagerHeadersAdapter extends RecyclerView.Adapter<AppManagerHea
     private long apkSize;
     private String apkPackageName;
     private MyItemClickListener listener;
+    private Intent uninstall_localIntent;
+
+
     @Override
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_app_manager, parent, false);
@@ -41,8 +48,8 @@ public class AppManagerHeadersAdapter extends RecyclerView.Adapter<AppManagerHea
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder holder, int position) {
-        AppInfo appInfo;
+    public void onBindViewHolder(final SimpleViewHolder holder, final int position) {
+
         if (appInfoList != null) {
             appName = appInfoList.get(position).getApkName();
             appIcon = appInfoList.get(position).getIcon();
@@ -54,26 +61,51 @@ public class AppManagerHeadersAdapter extends RecyclerView.Adapter<AppManagerHea
                 holder.appLocation.setText("外部内存");
             }
         } else {
+
             if (position < userAppInfos.size()) {
-                appInfo = userAppInfos.get(position);
+                appName = userAppInfos.get(position).getApkName();
+                appIcon = userAppInfos.get(position).getIcon();
+                apkSize = userAppInfos.get(position).getApkSize();
+                apkPackageName = userAppInfos.get(position).getApkPackageName();
+                if (userAppInfos.get(position).isRom()) {
+                    holder.appLocation.setText("手机内存");
+                } else {
+                    holder.appLocation.setText("外部内存");
+                }
+
             } else {
                 int lo = userAppInfos.size();
-                appInfo = systemAppInfos.get(position - lo);
+                appName = systemAppInfos.get(position - lo).getApkName();
+                appIcon = systemAppInfos.get(position - lo).getIcon();
+                apkSize = systemAppInfos.get(position - lo).getApkSize();
+                apkPackageName = systemAppInfos.get(position - lo).getApkPackageName();
+                if (systemAppInfos.get(position - lo).isRom()) {
+                    holder.appLocation.setText("手机内存");
+                } else {
+                    holder.appLocation.setText("外部内存");
+                }
             }
-            appName = appInfo.getApkName();
-            appIcon = appInfo.getIcon();
-            apkSize = appInfo.getApkSize();
-            apkPackageName = appInfo.getApkPackageName();
-            if (appInfo.isRom()) {
-                holder.appLocation.setText("手机内存");
-            } else {
-                holder.appLocation.setText("外部内存");
-            }
+
         }
 
         holder.appIcon.setImageDrawable(appIcon);
         holder.appName.setText(appName);
         holder.appSize.setText(Formatter.formatFileSize(context, apkSize));
+        //删除按钮监听
+        holder.appDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position < userAppInfos.size()){
+                    uninstall_localIntent = new Intent("android.intent.action.DELETE",
+                            Uri.parse("package:" + userAppInfos.get(position).getApkPackageName()));
+                }else {
+                    uninstall_localIntent = new Intent("android.intent.action.DELETE",
+                            Uri.parse("package:" + systemAppInfos.get(position - userAppInfos.size()).getApkPackageName()));
+                }
+                context.startActivity(uninstall_localIntent);
+               // notifyItemRemoved(holder.getAdapterPosition());
+            }
+        });
 
 
 
