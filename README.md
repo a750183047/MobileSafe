@@ -182,4 +182,54 @@
 			recyclerView.setAdapter(adapter);
 	
 	* 编写adapter。
+			`public class MyAdapter extends RecyclerView.Adapter<MyAdapter.SimpleViewHolder> `
+	在内部类 SimpleViewHolder 中初始化Item中的各个控件。
+		在 nBindViewHolder 方法中完成数据的加载。
+
+* RecyclerView 下拉刷新和上拉加载更多
 	
+	* 下拉刷新 
+		
+		在 xml 文件中 使用SwipeRefreshLayout 包裹 RecyclerView
+	
+			<android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+	            <include
+	                android:id="@+id/recycle_view"
+	                layout="@layout/view_recycler_view">
+
+	            </include>
+	
+	        </android.support.v4.widget.SwipeRefreshLayout>
+
+		java代码中
+			
+			swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+			//设置下拉刷新监听
+       		 swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+          		  @Override
+           			 public void onRefresh() {
+              		  new Thread() {
+                	    @Override
+               		     public void run() {
+                        blackNumberDb = new BlackNumberDb(CallSafeActivity.this);
+                        blackNumberInfos = blackNumberDb.findPar2(0, 20);
+                        handler.sendEmptyMessage(1);
+                	    }
+         	 	     }.start();
+          		  }
+       		 });
+
+
+		上拉加载更多   
+
+				//设置滑动监听
+        		recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener(）
+		使用滑动监听实现。
+
+##2015-12-13##
+
+*  软件管理页面的实现
