@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.activity.Atool.AddressActivity;
+import com.yan.mobilesafe.utils.SmsUtils;
 
 /**
  * 高级工具
@@ -20,6 +21,7 @@ import com.yan.mobilesafe.activity.Atool.AddressActivity;
 public class AToolActivity extends AppCompatActivity {
 
     private Button address;
+    private Button smsBackup;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -32,12 +34,20 @@ public class AToolActivity extends AppCompatActivity {
         setContentView(R.layout.activity_atoolactivity);
 
         address = (Button) findViewById(R.id.btn_address);
+        smsBackup = (Button) findViewById(R.id.btn_sms_backup);
 
 
         address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AToolActivity.this, AddressActivity.class));
+            }
+        });
+
+        smsBackup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SmsUtils.backupSms(AToolActivity.this);
             }
         });
     }
