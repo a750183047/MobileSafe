@@ -1,6 +1,7 @@
 package com.yan.mobilesafe.activity;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.activity.Atool.AddressActivity;
 import com.yan.mobilesafe.utils.SmsUtils;
+import com.yan.mobilesafe.utils.ToastUtils;
 
 /**
  * 高级工具
@@ -22,6 +24,7 @@ public class AToolActivity extends AppCompatActivity {
 
     private Button address;
     private Button smsBackup;
+    private ProgressDialog progressDialog;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -47,7 +50,38 @@ public class AToolActivity extends AppCompatActivity {
         smsBackup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SmsUtils.backupSms(AToolActivity.this);
+                //弹出一个提示框
+                progressDialog = new ProgressDialog(AToolActivity.this);
+                progressDialog.setTitle("短信备份中");
+                progressDialog.setMessage("正在备份短信，请稍后");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.show();
+
+                new Thread(){
+                    @Override
+                    public void run() {
+                        boolean result = SmsUtils.backupSms(AToolActivity.this,new SmsUtils.BackupSMS(){
+
+                            @Override
+                            public void before(int count) {
+                                progressDialog.setMax(count);
+
+                            }
+
+                            @Override
+                            public void onBackupSMS(int process) {
+                                progressDialog.setProgress(process);
+                            }
+                        });
+                        if (result){
+                            ToastUtils.showToast(AToolActivity.this,"备份成功");
+                        }else {
+                            ToastUtils.showToast(AToolActivity.this,"备份失败");
+                        }
+                        progressDialog.dismiss();
+                    }
+                }.start();
+
             }
         });
     }

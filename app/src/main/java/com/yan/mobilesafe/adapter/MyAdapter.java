@@ -67,7 +67,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.SimpleViewHolder> 
                         if (b){
 
                         }else {
-                            ToastUtils.showToast(context,"糟糕，删除失败了，再试一下");
+                          //  ToastUtils.showToast(context,"糟糕，删除失败了，再试一下");
                         }
                         //这里是个坑  http://blog.csdn.net/wangkai0681080/article/details/50082825
                         blackNumberInfo.remove(holder.getAdapterPosition());
