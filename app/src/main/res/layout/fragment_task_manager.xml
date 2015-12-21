@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.yan.mobilesafe.Fragment.TaskManager"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="运行的进程："
+            android:textColor="#cdcdcd"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_mem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="剩余/总内存："
+            android:textColor="#cdcdcd"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycleView_parent">
+
+        <include
+            android:id="@+id/view_rec"
+            layout="@layout/view_recycler_view" />
+    </LinearLayout>
+
+</LinearLayout>
