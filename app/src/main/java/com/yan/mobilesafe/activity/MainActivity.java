@@ -134,7 +134,7 @@ public class MainActivity extends Activity {
         if (autoUpdate) {
             checkVersion(); //检查版本
         } else {
-            handler.sendEmptyMessageDelayed(CODE_NO_UP_UPDATE, 3000);
+            handler.sendEmptyMessageDelayed(CODE_NO_UP_UPDATE, 1000);
         }
 
 

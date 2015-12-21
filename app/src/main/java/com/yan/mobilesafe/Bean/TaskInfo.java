@@ -12,6 +12,15 @@ public class TaskInfo {
     private String appName;
     private long memorySize;
     private boolean isUserApp; //是否为用户进程
+    private boolean isChickde; //是否勾选
+
+    public boolean isChickde() {
+        return isChickde;
+    }
+
+    public void setIsChickde(boolean isChickde) {
+        this.isChickde = isChickde;
+    }
 
     public Drawable getDrawable() {
         return drawable;
