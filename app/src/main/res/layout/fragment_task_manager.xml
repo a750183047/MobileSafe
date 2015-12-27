@@ -61,11 +61,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/kill_task"
             android:text="清除"/>
-        <Button
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设置"/>
 
     </LinearLayout>
 

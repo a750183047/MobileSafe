@@ -47,6 +47,9 @@ public class TaskManager extends Fragment {
     private AppTaskManagerHeadersAdapter appTaskManagerHeadersAdapter;
     private Button selectBackAll;
     private Button killTask;
+    private int size;
+    private long availMem;
+    private long totalMem;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -154,10 +157,16 @@ public class TaskManager extends Fragment {
                         + "个进程,释放"
                         + Formatter.formatFileSize(getActivity(),
                         killMem) + "内存");
+
+                size-=totalCount;
+                        taskRun.setText("运行的进程：" + size);
+                memory.setText("剩余/总内存：" + Formatter.formatFileSize(context, availMem+killMem) + "/" +
+                        Formatter.formatFileSize(context, totalMem));
                 appTaskManagerHeadersAdapter.notifyDataSetChanged();
 
             }
         });
+
 
     }
 
@@ -215,14 +224,14 @@ public class TaskManager extends Fragment {
         //获取当前手机正在运行的所有进程
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses =
                 systemService.getRunningAppProcesses();
-        int size = runningAppProcesses.size();     //这个API在小米的系统中已经废掉了，然后没有找到能用的API
+        size = runningAppProcesses.size();
         taskRun.setText("运行的进程：" + size);
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
         //获取到内存的基本信息
         systemService.getMemoryInfo(memoryInfo);
         //获取剩余内存
-        long availMem = memoryInfo.availMem;
-        long totalMem = memoryInfo.totalMem; //总内存数
+        availMem = memoryInfo.availMem;
+        totalMem = memoryInfo.totalMem;
         memory.setText("剩余/总内存：" + Formatter.formatFileSize(context, availMem) + "/" +
                 Formatter.formatFileSize(context, totalMem));
         //初始化recyclerView
