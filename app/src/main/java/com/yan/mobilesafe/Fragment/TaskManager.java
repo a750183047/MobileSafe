@@ -27,6 +27,7 @@ import com.yan.mobilesafe.R;
 import com.yan.mobilesafe.adapter.AppTaskManagerHeadersAdapter;
 import com.yan.mobilesafe.adapter.listentr.MyItemClickListener;
 import com.yan.mobilesafe.engine.TaskInfoParser;
+import com.yan.mobilesafe.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,8 @@ public class TaskManager extends Fragment {
     private List<TaskInfo> systemApp;
     private Button selectAll;
     private AppTaskManagerHeadersAdapter appTaskManagerHeadersAdapter;
+    private Button selectBackAll;
+    private Button killTask;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -62,11 +65,13 @@ public class TaskManager extends Fragment {
 
     }
 
-    void initUI(LayoutInflater inflater, ViewGroup container) {
+    void initUI(LayoutInflater inflater, final ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_task_manager, container, false);
         taskRun = (TextView) view.findViewById(R.id.tv_task);
         memory = (TextView) view.findViewById(R.id.tv_mem);
         selectAll = (Button) view.findViewById(R.id.select_all);
+        selectBackAll = (Button) view.findViewById(R.id.select_back_all);
+        killTask = (Button) view.findViewById(R.id.kill_task);
         recyclerVeiw = (RecyclerView) view.findViewById(R.id.view_rec);
 
         /**
@@ -77,12 +82,78 @@ public class TaskManager extends Fragment {
             public void onClick(View v) {
                 for (TaskInfo tastk :
                         userApp) {
+                    if (tastk.getPackageName().equals(context.getPackageName())){
+                        continue;
+                    } //如果是自己的程序，就跳过
                     tastk.setIsChickde(true);
                 }
                 for (TaskInfo task :
                         systemApp) {
                     task.setIsChickde(true);
                 }
+                appTaskManagerHeadersAdapter.notifyDataSetChanged();
+
+            }
+        });
+
+        /**
+         * 反选按钮监听
+         */
+        selectBackAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (TaskInfo taskInfo :
+                        userApp) {
+                    if (taskInfo.getPackageName().equals(context.getPackageName())){
+                        continue;
+                    } //如果是自己的程序，就跳过
+                    taskInfo.setIsChickde(!taskInfo.isChickde());
+                }
+                for (TaskInfo taskInfo :
+                        systemApp) {
+                    taskInfo.setIsChickde(!taskInfo.isChickde());
+                }
+                appTaskManagerHeadersAdapter.notifyDataSetChanged();
+            }
+        });
+        killTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager activityManager = (ActivityManager)
+                        context.getSystemService(Context.ACTIVITY_SERVICE);
+                List<TaskInfo> killLists = new ArrayList<TaskInfo>();  //要清理的进程的链接
+                //清理的总进程个数
+                int totalCount = 0;
+                //清理进程的大小
+                int killMem = 0;
+                for (TaskInfo taskInfo : userApp){
+                    if (taskInfo.isChickde()){
+                        killLists.add(taskInfo);
+                        totalCount++;
+                        killMem+=taskInfo.getMemorySize();
+                    }
+                }
+                for (TaskInfo taskInfo : systemApp){
+                    if (taskInfo.isChickde()){
+                        killLists.add(taskInfo);
+                        totalCount++;
+                        killMem+=taskInfo.getMemorySize();
+                    }
+                }
+                for (TaskInfo taskInfo:killLists){
+                    if (taskInfo.isUserApp()){
+                        userApp.remove(taskInfo);
+                        activityManager.killBackgroundProcesses(taskInfo.getPackageName());
+                    }else {
+                        systemApp.remove(taskInfo);
+                        activityManager.killBackgroundProcesses(taskInfo.getPackageName());
+                    }
+                }
+                ToastUtils.showToast(getActivity(),"共清理"
+                        + totalCount
+                        + "个进程,释放"
+                        + Formatter.formatFileSize(getActivity(),
+                        killMem) + "内存");
                 appTaskManagerHeadersAdapter.notifyDataSetChanged();
 
             }
